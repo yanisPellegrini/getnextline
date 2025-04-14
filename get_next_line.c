@@ -6,31 +6,29 @@
 /*   By: ypellegr <ypellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:15:06 by ypellegr          #+#    #+#             */
-/*   Updated: 2025/04/09 12:39:53 by ypellegr         ###   ########.fr       */
+/*   Updated: 2025/04/14 10:48:08 by ypellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int read_line(int fd, char **buffer)
+char *read_line(int fd, char **buffer, int *bytes_read)
 {
-	int bytes_read;
-	int read_size;
+    char temp[4096 + 1];
+    char *new_buffer;
+    int read_size;
 
-	read_size = BUFFER_SIZE;
-	if (BUFFER_SIZE >= 4096)
+    read_size = BUFFER_SIZE;
+	if (BUFFER_SIZE > 4096)
 		read_size = 4096;
-	*buffer = malloc(read_size + 1);
-	if (!*buffer)
-		return (-1);
-	bytes_read = read(fd, *buffer, read_size);
-	if (bytes_read < 0)
-	{
-		free(*buffer);
-		return (-1);
-	}
-	(*buffer)[bytes_read] = '\0';
-	return (bytes_read);
+    *bytes_read = read(fd, temp, read_size);
+    if (*bytes_read <= 0)
+        return (NULL);
+    temp[*bytes_read] = '\0';
+    new_buffer = ft_strjoin(*buffer, temp);
+    free(*buffer);
+    *buffer = new_buffer;
+    return (new_buffer);
 }
 
 char *extract_line(char **buffer)
@@ -50,16 +48,13 @@ char *extract_line(char **buffer)
 	*buffer = new_buffer;
 	if (!*buffer)
 		return (NULL);
-	
 	return (line);
 }
 
 char *get_next_line(int fd)
 {
     static char *buffer;
-    char temp[BUFFER_SIZE + 1];
     char *line;
-    char *new_buffer;
     int bytes_read;
 
     if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
@@ -68,8 +63,7 @@ char *get_next_line(int fd)
         buffer = ft_strdup("");
     while (ft_strchr_index(buffer, '\n') == -1)
     {
-        bytes_read = read(fd, temp, BUFFER_SIZE);
-        if (bytes_read <= 0)
+        if (!read_line(fd, &buffer, &bytes_read))
         {
             if (bytes_read == 0 && *buffer != '\0')
             {
@@ -82,15 +76,6 @@ char *get_next_line(int fd)
             buffer = NULL;
             return (NULL);
         }
-        temp[bytes_read] = '\0';
-        new_buffer = ft_strjoin(buffer, temp);
-        if (!new_buffer)
-        {
-            free(buffer);
-            return (NULL);
-        }
-        free(buffer);
-        buffer = new_buffer;
     }
     line = extract_line(&buffer);
     return (line);
