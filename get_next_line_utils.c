@@ -6,15 +6,15 @@
 /*   By: ypellegr <ypellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:17:37 by ypellegr          #+#    #+#             */
-/*   Updated: 2025/04/09 12:25:51 by ypellegr         ###   ########.fr       */
+/*   Updated: 2025/04/18 08:41:11 by ypellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int ft_strchr_index(const char *s, int c)
+int	ft_strchr_index(const char *s, int c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -28,11 +28,11 @@ int ft_strchr_index(const char *s, int c)
 	return (-1);
 }
 
-char *ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char *result;
-	int i;
-	int j;
+	char	*result;
+	int		i;
+	int		j;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -55,9 +55,9 @@ char *ft_strjoin(char *s1, char *s2)
 	return (result);
 }
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (s[len])
