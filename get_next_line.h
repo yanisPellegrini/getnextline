@@ -6,7 +6,7 @@
 /*   By: ypellegr <ypellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:10:03 by ypellegr          #+#    #+#             */
-/*   Updated: 2025/04/18 08:47:24 by ypellegr         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:34:43 by ypellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 char	*read_line(int fd, char **buffer, int *bytes_read);
 char	*extract_line(char **buffer);
